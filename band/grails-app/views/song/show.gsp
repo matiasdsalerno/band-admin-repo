@@ -44,7 +44,7 @@
 			
 				<g:if test="${songInstance?.youtubeCode}">
 				<li class="fieldcontain" style="text-align: center;">
-					<span id="youtubeCode-label" class="property-label"><g:message code="song.youtubeCode.label" default="Video en YouTube" /></span>
+					<span id="youtubeCode-label" class="property-label"><g:message code="song.youtubeVideo.label" default="Video en YouTube" /></span>
 					<iframe width="560" height="315" src="http://www.youtube.com/embed/<g:fieldValue bean="${songInstance}" field="youtubeCode"/>" frameborder="0" allowfullscreen></iframe>
 					
 				</li>
