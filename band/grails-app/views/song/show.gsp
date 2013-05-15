@@ -22,21 +22,12 @@
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
 			<ol class="property-list song">
-			
-				<g:if test="${songInstance?.youtubeLink}">
+
+				<g:if test="${songInstance?.name}">
 				<li class="fieldcontain">
-					<span id="youtubeLink-label" class="property-label"><g:message code="song.youtubeLink.label" default="Youtube Link" /></span>
+					<span id="name-label" class="property-label"><g:message code="song.name.label" default="Nombre" /></span>
 					
-						<span class="property-value" aria-labelledby="youtubeLink-label"><g:fieldValue bean="${songInstance}" field="youtubeLink"/></span>
-					
-				</li>
-				</g:if>
-			
-				<g:if test="${songInstance?.lyrics}">
-				<li class="fieldcontain">
-					<span id="lyrics-label" class="property-label"><g:message code="song.lyrics.label" default="Lyrics" /></span>
-					
-						<span class="property-value" aria-labelledby="lyrics-label"><g:fieldValue bean="${songInstance}" field="lyrics"/></span>
+						<span class="property-value" aria-labelledby="name-label"><g:fieldValue bean="${songInstance}" field="name"/></span>
 					
 				</li>
 				</g:if>
@@ -50,14 +41,23 @@
 				</li>
 				</g:if>
 			
-				<g:if test="${songInstance?.name}">
-				<li class="fieldcontain">
-					<span id="name-label" class="property-label"><g:message code="song.name.label" default="Name" /></span>
-					
-						<span class="property-value" aria-labelledby="name-label"><g:fieldValue bean="${songInstance}" field="name"/></span>
+			
+				<g:if test="${songInstance?.youtubeCode}">
+				<li class="fieldcontain" style="text-align: center;">
+					<span id="youtubeCode-label" class="property-label"><g:message code="song.youtubeCode.label" default="Video en YouTube" /></span>
+					<iframe width="560" height="315" src="http://www.youtube.com/embed/<g:fieldValue bean="${songInstance}" field="youtubeCode"/>" frameborder="0" allowfullscreen></iframe>
 					
 				</li>
 				</g:if>
+			
+				<g:if test="${songInstance?.lyrics}">
+				<li class="fieldcontain">
+					<span id="lyrics-label" class="property-label"><g:message code="song.lyrics.label" default="Letra" /></span>
+						<p class="property-value" aria-labelledby="lyrics-label">${songInstance.lyrics.replace('\n', '<br/>')}</p>
+					
+				</li>
+				</g:if>
+
 			
 			</ol>
 			<g:form>

@@ -24,7 +24,7 @@
 				<thead>
 					<tr>
 					
-						<g:sortableColumn property="youtubeLink" title="${message(code: 'song.youtubeLink.label', default: 'Youtube Link')}" />
+						<g:sortableColumn property="youtubeCode" title="${message(code: 'song.youtubeCode.label', default: 'Youtube Code')}" />
 					
 						<g:sortableColumn property="lyrics" title="${message(code: 'song.lyrics.label', default: 'Lyrics')}" />
 					
@@ -38,7 +38,7 @@
 				<g:each in="${songInstanceList}" status="i" var="songInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
 					
-						<td><g:link action="show" id="${songInstance.id}">${fieldValue(bean: songInstance, field: "youtubeLink")}</g:link></td>
+						<td><g:link action="show" id="${songInstance.id}">${fieldValue(bean: songInstance, field: "youtubeCode")}</g:link></td>
 					
 						<td>${fieldValue(bean: songInstance, field: "lyrics")}</td>
 					

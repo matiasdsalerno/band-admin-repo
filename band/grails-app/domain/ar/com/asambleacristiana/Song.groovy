@@ -5,11 +5,11 @@ class Song {
 	String name
 	Album album
 	String lyrics
-	String youtubeLink
+	String youtubeCode
 	
     static constraints = {
-		youtubeLink(url:true, nullable:true)
-		lyrics(nullable:true)
+		youtubeCode(nullable:true)
+		lyrics(nullable:true, widget:'textarea', size: 1..1500)
     }
 	
 	@Override

@@ -2,12 +2,12 @@
 
 
 
-<div class="fieldcontain ${hasErrors(bean: songInstance, field: 'youtubeLink', 'error')} ">
-	<label for="youtubeLink">
-		<g:message code="song.youtubeLink.label" default="Youtube Link" />
+<div class="fieldcontain ${hasErrors(bean: songInstance, field: 'youtubeCode', 'error')} ">
+	<label for="youtubeCode">
+		<g:message code="song.youtubeCode.label" default="Youtube Code" />
 		
 	</label>
-	<g:field type="url" name="youtubeLink" value="${songInstance?.youtubeLink}"/>
+	<g:textField name="youtubeCode" value="${songInstance?.youtubeCode}"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: songInstance, field: 'lyrics', 'error')} ">
@@ -15,7 +15,7 @@
 		<g:message code="song.lyrics.label" default="Lyrics" />
 		
 	</label>
-	<g:textField name="lyrics" value="${songInstance?.lyrics}"/>
+	<g:textArea name="lyrics" cols="40" rows="5" maxlength="1500" value="${songInstance?.lyrics}"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: songInstance, field: 'album', 'error')} required">
