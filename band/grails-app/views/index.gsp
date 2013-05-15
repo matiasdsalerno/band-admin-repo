@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta name="layout" content="main" />
-<title>Welcome to Grails</title>
+<title>Administrador de Bandas</title>
 <style type="text/css" media="screen">
 #status {
 	background-color: #eee;
@@ -91,13 +91,12 @@ p {
 					code="default.link.skip.label" default="Skip to content&hellip;" /></a>
 			<div class="nav" role="navigation">
 				<ul>
-					<g:each var="c"
-					in="${grailsApplication.controllerClasses.sort { it.fullName } }">
-					<li><g:link
-							controller="${c.logicalPropertyName}">
-							${c.name}
+					<li><g:link controller="song" absolute="true">
+							<g:message code="song.list.label" />
 						</g:link></li>
-				</g:each>
+					<li><g:link controller="band" absolute="true">
+							<g:message code="band.list.label" />
+						</g:link></li>
 				</ul>
 			</div>
 		</div>
