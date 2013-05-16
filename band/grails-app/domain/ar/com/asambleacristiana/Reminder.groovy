@@ -1,14 +1,11 @@
 package ar.com.asambleacristiana
 
-class Event {
+class Reminder {
 
-	String name
+	String triggerName = "trigger" + id
+	Event event
 	Date date
-	Band band
-	Member director
-	Set<Song> songs
 	
     static constraints = {
-		
     }
 }
