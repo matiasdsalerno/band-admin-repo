@@ -4,7 +4,6 @@ import org.apache.commons.mail.SimpleEmail;
 
 class Reminder {
 
-	String triggerName = "trigger" + id
 	Event event
 	Date date
 	
@@ -16,16 +15,17 @@ class Reminder {
 		email.with {
 			hostName = grailsApplication.config.mail.hostName
 			fromAddress = grailsApplication.config.mail.fromAddress
-			subject = "Recordatorio: ${event.name} - ${event.date}"
 			smtpPort = grailsApplication.config.mail.smtpPort
+			subject = "Recordatorio: ${event.name} - ${event.date}"
+			message = mailMessage
 			setAuthentication grailsApplication.config.mail.username, grailsApplication.config.mail.password
-			message = getMailMessage();
-			
+			addTo "matias.d.salerno@gmail.com"
+			send
 		}
 	}
 	
 	String getMailMessage() {
-		
+		"canciones: ${event.songs}"
 	}
 
 }

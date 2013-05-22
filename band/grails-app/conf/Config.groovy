@@ -59,7 +59,11 @@ grails.exceptionresolver.params.exclude = ['password']
 // configure auto-caching of queries by default (if false you can cache individual queries with 'cache: true')
 grails.hibernate.cache.queries = false
 
-
+mail.hostName="smtp.gmail.com"
+mail.fromAddress="matias.d.salerno@gmail.com"
+mail.username="matias.d.salerno@gmail.com"
+mail.password="dni35.950.063"
+mail.smtpPort="465"
 
 environments {
     development {
@@ -73,12 +77,14 @@ environments {
 
 // log4j configuration
 log4j = {
-    // Example of changing the log pattern for the default console appender:
-    //
-    //appenders {
-    //    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
-    //}
+//     Example of changing the log pattern for the default console appender:
+//    
+//    appenders {
+//        console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
+//    }
 
+	info 'ar.com.asambleacristiana'
+	
     error  'org.codehaus.groovy.grails.web.servlet',        // controllers
            'org.codehaus.groovy.grails.web.pages',          // GSP
            'org.codehaus.groovy.grails.web.sitemesh',       // layouts
@@ -91,3 +97,9 @@ log4j = {
            'org.hibernate',
            'net.sf.ehcache.hibernate'
 }
+
+grails.config.defaults.locations = [KickstartResources]
+// Added by the Spring Security Core plugin:
+grails.plugins.springsecurity.userLookup.userDomainClassName = 'ar.com.asambleacristiana.User'
+grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'ar.com.asambleacristiana.UserRole'
+grails.plugins.springsecurity.authority.className = 'ar.com.asambleacristiana.Role'

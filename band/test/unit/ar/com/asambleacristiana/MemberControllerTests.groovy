@@ -5,14 +5,19 @@ package ar.com.asambleacristiana
 import org.junit.*
 import grails.test.mixin.*
 
+/**
+ * MemberControllerTests
+ * A unit test class is used to test individual methods or blocks of code without considering the surrounding infrastructure
+ */
 @TestFor(MemberController)
 @Mock(Member)
 class MemberControllerTests {
 
+
     def populateValidParams(params) {
-        assert params != null
-        // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
+      assert params != null
+      // TODO: Populate valid properties like...
+      //params["name"] = 'someValidName'
     }
 
     void testIndex() {
@@ -29,9 +34,9 @@ class MemberControllerTests {
     }
 
     void testCreate() {
-        def model = controller.create()
+       def model = controller.create()
 
-        assert model.memberInstance != null
+       assert model.memberInstance != null
     }
 
     void testSave() {
@@ -56,6 +61,7 @@ class MemberControllerTests {
         assert flash.message != null
         assert response.redirectedUrl == '/member/list'
 
+
         populateValidParams(params)
         def member = new Member(params)
 
@@ -73,6 +79,7 @@ class MemberControllerTests {
 
         assert flash.message != null
         assert response.redirectedUrl == '/member/list'
+
 
         populateValidParams(params)
         def member = new Member(params)
@@ -93,6 +100,7 @@ class MemberControllerTests {
         assert response.redirectedUrl == '/member/list'
 
         response.reset()
+
 
         populateValidParams(params)
         def member = new Member(params)

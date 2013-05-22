@@ -33,11 +33,12 @@ grails.project.dependency.resolution = {
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
-		runtime "org.apache.commons:commons-email:1.3.1"
+		compile "org.apache.commons:commons-email:1.3.1"
         // runtime 'mysql:mysql-connector-java:5.1.20'
     }
 
     plugins {
+    	compile ":spring-security-core:1.2.7.3"
         runtime ":hibernate:$grailsVersion"
         runtime ":jquery:1.8.0"
         runtime ":resources:1.1.6"

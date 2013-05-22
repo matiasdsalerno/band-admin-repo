@@ -2,6 +2,10 @@ package ar.com.asambleacristiana
 
 import org.springframework.dao.DataIntegrityViolationException
 
+/**
+ * AuthorController
+ * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
+ */
 class AuthorController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -10,8 +14,8 @@ class AuthorController {
         redirect(action: "list", params: params)
     }
 
-    def list(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
+    def list() {
+        params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [authorInstanceList: Author.list(params), authorInstanceTotal: Author.count()]
     }
 
@@ -26,14 +30,14 @@ class AuthorController {
             return
         }
 
-        flash.message = message(code: 'default.created.message', args: [message(code: 'author.label', default: 'Author'), authorInstance.id])
+		flash.message = message(code: 'default.created.message', args: [message(code: 'author.label', default: 'Author'), authorInstance.id])
         redirect(action: "show", id: authorInstance.id)
     }
 
-    def show(Long id) {
-        def authorInstance = Author.get(id)
+    def show() {
+        def authorInstance = Author.get(params.id)
         if (!authorInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'author.label', default: 'Author'), id])
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'author.label', default: 'Author'), params.id])
             redirect(action: "list")
             return
         }
@@ -41,10 +45,10 @@ class AuthorController {
         [authorInstance: authorInstance]
     }
 
-    def edit(Long id) {
-        def authorInstance = Author.get(id)
+    def edit() {
+        def authorInstance = Author.get(params.id)
         if (!authorInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'author.label', default: 'Author'), id])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'author.label', default: 'Author'), params.id])
             redirect(action: "list")
             return
         }
@@ -52,15 +56,16 @@ class AuthorController {
         [authorInstance: authorInstance]
     }
 
-    def update(Long id, Long version) {
-        def authorInstance = Author.get(id)
+    def update() {
+        def authorInstance = Author.get(params.id)
         if (!authorInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'author.label', default: 'Author'), id])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'author.label', default: 'Author'), params.id])
             redirect(action: "list")
             return
         }
 
-        if (version != null) {
+        if (params.version) {
+            def version = params.version.toLong()
             if (authorInstance.version > version) {
                 authorInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                           [message(code: 'author.label', default: 'Author')] as Object[],
@@ -77,26 +82,26 @@ class AuthorController {
             return
         }
 
-        flash.message = message(code: 'default.updated.message', args: [message(code: 'author.label', default: 'Author'), authorInstance.id])
+		flash.message = message(code: 'default.updated.message', args: [message(code: 'author.label', default: 'Author'), authorInstance.id])
         redirect(action: "show", id: authorInstance.id)
     }
 
-    def delete(Long id) {
-        def authorInstance = Author.get(id)
+    def delete() {
+        def authorInstance = Author.get(params.id)
         if (!authorInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'author.label', default: 'Author'), id])
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'author.label', default: 'Author'), params.id])
             redirect(action: "list")
             return
         }
 
         try {
             authorInstance.delete(flush: true)
-            flash.message = message(code: 'default.deleted.message', args: [message(code: 'author.label', default: 'Author'), id])
+			flash.message = message(code: 'default.deleted.message', args: [message(code: 'author.label', default: 'Author'), params.id])
             redirect(action: "list")
         }
         catch (DataIntegrityViolationException e) {
-            flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'author.label', default: 'Author'), id])
-            redirect(action: "show", id: id)
+			flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'author.label', default: 'Author'), params.id])
+            redirect(action: "show", id: params.id)
         }
     }
 }

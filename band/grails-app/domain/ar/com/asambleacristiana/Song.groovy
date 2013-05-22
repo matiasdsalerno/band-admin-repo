@@ -16,4 +16,8 @@ class Song {
 	public String toString() {
 		return name;
 	}
+	
+	public String getYoutubeLink() {
+		"http://www.youtube.com/watch?v=${youtubeCode}"
+	}
 }

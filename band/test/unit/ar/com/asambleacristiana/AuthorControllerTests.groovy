@@ -5,14 +5,19 @@ package ar.com.asambleacristiana
 import org.junit.*
 import grails.test.mixin.*
 
+/**
+ * AuthorControllerTests
+ * A unit test class is used to test individual methods or blocks of code without considering the surrounding infrastructure
+ */
 @TestFor(AuthorController)
 @Mock(Author)
 class AuthorControllerTests {
 
+
     def populateValidParams(params) {
-        assert params != null
-        // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
+      assert params != null
+      // TODO: Populate valid properties like...
+      //params["name"] = 'someValidName'
     }
 
     void testIndex() {
@@ -29,9 +34,9 @@ class AuthorControllerTests {
     }
 
     void testCreate() {
-        def model = controller.create()
+       def model = controller.create()
 
-        assert model.authorInstance != null
+       assert model.authorInstance != null
     }
 
     void testSave() {
@@ -56,6 +61,7 @@ class AuthorControllerTests {
         assert flash.message != null
         assert response.redirectedUrl == '/author/list'
 
+
         populateValidParams(params)
         def author = new Author(params)
 
@@ -73,6 +79,7 @@ class AuthorControllerTests {
 
         assert flash.message != null
         assert response.redirectedUrl == '/author/list'
+
 
         populateValidParams(params)
         def author = new Author(params)
@@ -93,6 +100,7 @@ class AuthorControllerTests {
         assert response.redirectedUrl == '/author/list'
 
         response.reset()
+
 
         populateValidParams(params)
         def author = new Author(params)

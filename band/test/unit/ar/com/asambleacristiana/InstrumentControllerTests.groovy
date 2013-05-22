@@ -5,14 +5,19 @@ package ar.com.asambleacristiana
 import org.junit.*
 import grails.test.mixin.*
 
+/**
+ * InstrumentControllerTests
+ * A unit test class is used to test individual methods or blocks of code without considering the surrounding infrastructure
+ */
 @TestFor(InstrumentController)
 @Mock(Instrument)
 class InstrumentControllerTests {
 
+
     def populateValidParams(params) {
-        assert params != null
-        // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
+      assert params != null
+      // TODO: Populate valid properties like...
+      //params["name"] = 'someValidName'
     }
 
     void testIndex() {
@@ -29,9 +34,9 @@ class InstrumentControllerTests {
     }
 
     void testCreate() {
-        def model = controller.create()
+       def model = controller.create()
 
-        assert model.instrumentInstance != null
+       assert model.instrumentInstance != null
     }
 
     void testSave() {
@@ -56,6 +61,7 @@ class InstrumentControllerTests {
         assert flash.message != null
         assert response.redirectedUrl == '/instrument/list'
 
+
         populateValidParams(params)
         def instrument = new Instrument(params)
 
@@ -73,6 +79,7 @@ class InstrumentControllerTests {
 
         assert flash.message != null
         assert response.redirectedUrl == '/instrument/list'
+
 
         populateValidParams(params)
         def instrument = new Instrument(params)
@@ -93,6 +100,7 @@ class InstrumentControllerTests {
         assert response.redirectedUrl == '/instrument/list'
 
         response.reset()
+
 
         populateValidParams(params)
         def instrument = new Instrument(params)

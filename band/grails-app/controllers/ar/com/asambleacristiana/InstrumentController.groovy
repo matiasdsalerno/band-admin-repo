@@ -2,6 +2,10 @@ package ar.com.asambleacristiana
 
 import org.springframework.dao.DataIntegrityViolationException
 
+/**
+ * InstrumentController
+ * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
+ */
 class InstrumentController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -10,8 +14,8 @@ class InstrumentController {
         redirect(action: "list", params: params)
     }
 
-    def list(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
+    def list() {
+        params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [instrumentInstanceList: Instrument.list(params), instrumentInstanceTotal: Instrument.count()]
     }
 
@@ -26,14 +30,14 @@ class InstrumentController {
             return
         }
 
-        flash.message = message(code: 'default.created.message', args: [message(code: 'instrument.label', default: 'Instrument'), instrumentInstance.id])
+		flash.message = message(code: 'default.created.message', args: [message(code: 'instrument.label', default: 'Instrument'), instrumentInstance.id])
         redirect(action: "show", id: instrumentInstance.id)
     }
 
-    def show(Long id) {
-        def instrumentInstance = Instrument.get(id)
+    def show() {
+        def instrumentInstance = Instrument.get(params.id)
         if (!instrumentInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'instrument.label', default: 'Instrument'), id])
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'instrument.label', default: 'Instrument'), params.id])
             redirect(action: "list")
             return
         }
@@ -41,10 +45,10 @@ class InstrumentController {
         [instrumentInstance: instrumentInstance]
     }
 
-    def edit(Long id) {
-        def instrumentInstance = Instrument.get(id)
+    def edit() {
+        def instrumentInstance = Instrument.get(params.id)
         if (!instrumentInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'instrument.label', default: 'Instrument'), id])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'instrument.label', default: 'Instrument'), params.id])
             redirect(action: "list")
             return
         }
@@ -52,15 +56,16 @@ class InstrumentController {
         [instrumentInstance: instrumentInstance]
     }
 
-    def update(Long id, Long version) {
-        def instrumentInstance = Instrument.get(id)
+    def update() {
+        def instrumentInstance = Instrument.get(params.id)
         if (!instrumentInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'instrument.label', default: 'Instrument'), id])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'instrument.label', default: 'Instrument'), params.id])
             redirect(action: "list")
             return
         }
 
-        if (version != null) {
+        if (params.version) {
+            def version = params.version.toLong()
             if (instrumentInstance.version > version) {
                 instrumentInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                           [message(code: 'instrument.label', default: 'Instrument')] as Object[],
@@ -77,26 +82,26 @@ class InstrumentController {
             return
         }
 
-        flash.message = message(code: 'default.updated.message', args: [message(code: 'instrument.label', default: 'Instrument'), instrumentInstance.id])
+		flash.message = message(code: 'default.updated.message', args: [message(code: 'instrument.label', default: 'Instrument'), instrumentInstance.id])
         redirect(action: "show", id: instrumentInstance.id)
     }
 
-    def delete(Long id) {
-        def instrumentInstance = Instrument.get(id)
+    def delete() {
+        def instrumentInstance = Instrument.get(params.id)
         if (!instrumentInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'instrument.label', default: 'Instrument'), id])
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'instrument.label', default: 'Instrument'), params.id])
             redirect(action: "list")
             return
         }
 
         try {
             instrumentInstance.delete(flush: true)
-            flash.message = message(code: 'default.deleted.message', args: [message(code: 'instrument.label', default: 'Instrument'), id])
+			flash.message = message(code: 'default.deleted.message', args: [message(code: 'instrument.label', default: 'Instrument'), params.id])
             redirect(action: "list")
         }
         catch (DataIntegrityViolationException e) {
-            flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'instrument.label', default: 'Instrument'), id])
-            redirect(action: "show", id: id)
+			flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'instrument.label', default: 'Instrument'), params.id])
+            redirect(action: "show", id: params.id)
         }
     }
 }

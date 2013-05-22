@@ -6,7 +6,7 @@ class Event {
 	Date date
 	Band band
 	Member director
-	Set<Song> songs
+	List<Song> songs
 	
     static constraints = {
 		

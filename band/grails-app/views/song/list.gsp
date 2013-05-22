@@ -1,47 +1,43 @@
 
 <%@ page import="ar.com.asambleacristiana.Song" %>
-<!DOCTYPE html>
+<!doctype html>
 <html>
-	<head>
-		<meta name="layout" content="main">
-		<g:set var="entityName" value="${message(code: 'song.label', default: 'Song')}" />
-		<title><g:message code="song.list.label"/></title>
-	</head>
-	<body>
-		<a href="#list-song" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div class="nav" role="navigation">
-			<ul>
-				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.f.label" args="[entityName]" /></g:link></li>
-			</ul>
-		</div>
-		<div id="list-song" class="content scaffold-list" role="main">
-			<h1><g:message code="song.list.label" /></h1>
-			<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
-			</g:if>
-			<table>
-				<thead>
-					<tr>
-						<g:sortableColumn property="name" title="${message(code: 'song.name.label', default: 'Name')}" />
-					
-						<th><g:message code="song.album.label" default="Album" /></th>
-					</tr>
-				</thead>
-				<tbody>
-				<g:each in="${songInstanceList}" status="i" var="songInstance">
-					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-					
-						<td><g:link action="show" id="${songInstance.id}">${fieldValue(bean: songInstance, field: "name")}</g:link></td>
-					
-						<td>${fieldValue(bean: songInstance, field: "album")}</td>
-					</tr>
-				</g:each>
-				</tbody>
-			</table>
-			<div class="pagination">
-				<g:paginate total="${songInstanceTotal}" />
-			</div>
-		</div>
-	</body>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="layout" content="kickstart" />
+	<g:set var="entityName" value="${message(code: 'song.label', default: 'Song')}" />
+	<title><g:message code="song.list.label" /></title>
+</head>
+
+<body>
+	
+<section id="list-song" class="first">
+
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<g:sortableColumn property="name" title="${message(code: 'song.name.label', default: 'Name')}" />
+				<g:sortableColumn property="youtubeLink" title="${message(code: 'song.youtubeLink.label', default: 'Link a Youtube')}" />
+				<g:sortableColumn property="album" title="${message(code: 'song.album.label', default: 'Album')}" />
+				<g:sortableColumn property="author" title="${message(code: 'album.author.label', default: 'Autor')}" />
+			</tr>
+		</thead>
+		<tbody>
+		<g:each in="${songInstanceList}" status="i" var="songInstance">
+			<tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
+				<td><g:link action="show" id="${songInstance.id}">${fieldValue(bean: songInstance, field: "name")}</g:link></td>
+				<td><a href="${fieldValue(bean: songInstance, field: "youtubeLink")}">${fieldValue(bean: songInstance, field: "youtubeLink")}</a></td>
+				<td>${songInstance?.album?.name}</td>
+				<td>${songInstance?.album?.author}</td>
+			</tr>
+		</g:each>
+		</tbody>
+	</table>
+	<div class="pagination">
+		<bs:paginate total="${songInstanceTotal}" />
+	</div>
+</section>
+
+</body>
+
 </html>

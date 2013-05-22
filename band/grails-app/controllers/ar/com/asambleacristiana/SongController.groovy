@@ -2,6 +2,10 @@ package ar.com.asambleacristiana
 
 import org.springframework.dao.DataIntegrityViolationException
 
+/**
+ * SongController
+ * A controller class handles incoming web requests and performs actions such as redirects, rendering views and so on.
+ */
 class SongController {
 
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -10,8 +14,8 @@ class SongController {
         redirect(action: "list", params: params)
     }
 
-    def list(Integer max) {
-        params.max = Math.min(max ?: 10, 100)
+    def list() {
+        params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [songInstanceList: Song.list(params), songInstanceTotal: Song.count()]
     }
 
@@ -26,14 +30,14 @@ class SongController {
             return
         }
 
-        flash.message = message(code: 'default.created.message', args: [message(code: 'song.label', default: 'Song'), songInstance.id])
+		flash.message = message(code: 'default.created.message', args: [message(code: 'song.label', default: 'Song'), songInstance.id])
         redirect(action: "show", id: songInstance.id)
     }
 
-    def show(Long id) {
-        def songInstance = Song.get(id)
+    def show() {
+        def songInstance = Song.get(params.id)
         if (!songInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'song.label', default: 'Song'), id])
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'song.label', default: 'Song'), params.id])
             redirect(action: "list")
             return
         }
@@ -41,10 +45,10 @@ class SongController {
         [songInstance: songInstance]
     }
 
-    def edit(Long id) {
-        def songInstance = Song.get(id)
+    def edit() {
+        def songInstance = Song.get(params.id)
         if (!songInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'song.label', default: 'Song'), id])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'song.label', default: 'Song'), params.id])
             redirect(action: "list")
             return
         }
@@ -52,15 +56,16 @@ class SongController {
         [songInstance: songInstance]
     }
 
-    def update(Long id, Long version) {
-        def songInstance = Song.get(id)
+    def update() {
+        def songInstance = Song.get(params.id)
         if (!songInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'song.label', default: 'Song'), id])
+            flash.message = message(code: 'default.not.found.message', args: [message(code: 'song.label', default: 'Song'), params.id])
             redirect(action: "list")
             return
         }
 
-        if (version != null) {
+        if (params.version) {
+            def version = params.version.toLong()
             if (songInstance.version > version) {
                 songInstance.errors.rejectValue("version", "default.optimistic.locking.failure",
                           [message(code: 'song.label', default: 'Song')] as Object[],
@@ -77,26 +82,26 @@ class SongController {
             return
         }
 
-        flash.message = message(code: 'default.updated.message', args: [message(code: 'song.label', default: 'Song'), songInstance.id])
+		flash.message = message(code: 'default.updated.message', args: [message(code: 'song.label', default: 'Song'), songInstance.id])
         redirect(action: "show", id: songInstance.id)
     }
 
-    def delete(Long id) {
-        def songInstance = Song.get(id)
+    def delete() {
+        def songInstance = Song.get(params.id)
         if (!songInstance) {
-            flash.message = message(code: 'default.not.found.message', args: [message(code: 'song.label', default: 'Song'), id])
+			flash.message = message(code: 'default.not.found.message', args: [message(code: 'song.label', default: 'Song'), params.id])
             redirect(action: "list")
             return
         }
 
         try {
             songInstance.delete(flush: true)
-            flash.message = message(code: 'default.deleted.message', args: [message(code: 'song.label', default: 'Song'), id])
+			flash.message = message(code: 'default.deleted.message', args: [message(code: 'song.label', default: 'Song'), params.id])
             redirect(action: "list")
         }
         catch (DataIntegrityViolationException e) {
-            flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'song.label', default: 'Song'), id])
-            redirect(action: "show", id: id)
+			flash.message = message(code: 'default.not.deleted.message', args: [message(code: 'song.label', default: 'Song'), params.id])
+            redirect(action: "show", id: params.id)
         }
     }
 }

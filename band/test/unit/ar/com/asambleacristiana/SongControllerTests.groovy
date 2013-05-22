@@ -5,14 +5,19 @@ package ar.com.asambleacristiana
 import org.junit.*
 import grails.test.mixin.*
 
+/**
+ * SongControllerTests
+ * A unit test class is used to test individual methods or blocks of code without considering the surrounding infrastructure
+ */
 @TestFor(SongController)
 @Mock(Song)
 class SongControllerTests {
 
+
     def populateValidParams(params) {
-        assert params != null
-        // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
+      assert params != null
+      // TODO: Populate valid properties like...
+      //params["name"] = 'someValidName'
     }
 
     void testIndex() {
@@ -29,9 +34,9 @@ class SongControllerTests {
     }
 
     void testCreate() {
-        def model = controller.create()
+       def model = controller.create()
 
-        assert model.songInstance != null
+       assert model.songInstance != null
     }
 
     void testSave() {
@@ -56,6 +61,7 @@ class SongControllerTests {
         assert flash.message != null
         assert response.redirectedUrl == '/song/list'
 
+
         populateValidParams(params)
         def song = new Song(params)
 
@@ -73,6 +79,7 @@ class SongControllerTests {
 
         assert flash.message != null
         assert response.redirectedUrl == '/song/list'
+
 
         populateValidParams(params)
         def song = new Song(params)
@@ -93,6 +100,7 @@ class SongControllerTests {
         assert response.redirectedUrl == '/song/list'
 
         response.reset()
+
 
         populateValidParams(params)
         def song = new Song(params)
