@@ -13,11 +13,12 @@ class Reminder {
 	def sendEmail(grailsApplication) {
 		SimpleEmail email = new SimpleEmail();
 		email.with {
+			
 			hostName = grailsApplication.config.mail.hostName
-			fromAddress = grailsApplication.config.mail.fromAddress
-			smtpPort = grailsApplication.config.mail.smtpPort
+			setFrom(grailsApplication.config.mail.fromAddress)
+			smtpPort = new Integer(grailsApplication.config.mail.smtpPort)
 			subject = "Recordatorio: ${event.name} - ${event.date}"
-			message = mailMessage
+			setMsg(getMailMessage())
 			setAuthentication grailsApplication.config.mail.username, grailsApplication.config.mail.password
 			addTo "matias.d.salerno@gmail.com"
 			send

@@ -32,7 +32,6 @@ class ReminderController {
     def save() {
         def reminderInstance = new Reminder(params)
         if (!reminderInstance.save(flush: true)) {
-			scheduleEmailJob(reminderInstance)
 			render(view: "create", model: [reminderInstance: reminderInstance])
             return
         }
@@ -40,13 +39,6 @@ class ReminderController {
 		flash.message = message(code: 'default.created.message', args: [message(code: 'reminder.label', default: 'Reminder'), reminderInstance.id])
         redirect(action: "show", id: reminderInstance.id)
     }
-
-	private scheduleEmailJob(Reminder reminderInstance) {
-		JobDetail jobDetail = new JobDetailImpl("reminder${reminderInstance.id}", ScheduleEmailJob.class)
-		jobDetail.jobDataMap.reminder = reminderInstance.id;
-		Trigger trigger = new SimpleTriggerImpl("reminderTrigger${reminderInstance.id}", reminderInstance.date)
-		quartzScheduler.scheduleJob(jobDetail, trigger)
-	}
 
     def show() {
         def reminderInstance = Reminder.get(params.id)
