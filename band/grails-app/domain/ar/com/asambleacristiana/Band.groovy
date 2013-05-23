@@ -7,4 +7,9 @@ class Band {
 
     static constraints = {
     }
+	
+	@Override
+	public String toString() {
+		description
+	}
 }
